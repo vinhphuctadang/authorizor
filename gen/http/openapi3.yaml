@@ -1,0 +1,70 @@
+openapi: 3.0.3
+info:
+  title: The authorizor Service
+  description: HTTP Service for managing identity
+  version: "1.0"
+servers:
+- url: http://localhost:8088
+paths:
+  /ping:
+    get:
+      tags:
+      - authorizor
+      summary: ping authorizor
+      operationId: authorizor#ping
+      responses:
+        "200":
+          description: OK response.
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Et nihil et rerum est ipsum.
+              example: Quo ut sapiente aliquid fuga id.
+  /register:
+    post:
+      tags:
+      - authorizor
+      summary: register authorizor
+      operationId: authorizor#register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequestBody'
+            example:
+              password: Magnam velit et assumenda adipisci excepturi eos.
+              username: Cum doloribus molestias qui.
+      responses:
+        "200":
+          description: OK response.
+          content:
+            application/json:
+              schema:
+                type: integer
+                example: 4116662752072895634
+                format: int64
+              example: 3584793366749379807
+components:
+  schemas:
+    RegisterRequestBody:
+      type: object
+      properties:
+        password:
+          type: string
+          description: password
+          example: Iure repudiandae et ad quo ut perspiciatis.
+        username:
+          type: string
+          description: username
+          example: Ut harum unde sed itaque molestias.
+      example:
+        password: Dolores consequuntur sapiente at accusamus numquam.
+        username: Placeat aut nesciunt consequuntur totam.
+      required:
+      - username
+      - password
+tags:
+- name: authorizor
+  description: Service for authenticating and authorizing
