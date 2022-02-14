@@ -14,9 +14,9 @@ import (
 // Service for authenticating and authorizing
 type Service interface {
 	// Register implements register.
-	Register(context.Context, *RegisterPayload) (res int, err error)
+	Register(context.Context, *RegisterPayload) (res *RegisterResult, err error)
 	// Ping implements ping.
-	Ping(context.Context) (res string, err error)
+	Ping(context.Context) (res *PingResult, err error)
 }
 
 // ServiceName is the name of the service as defined in the design. This is the
@@ -36,4 +36,20 @@ type RegisterPayload struct {
 	Username string
 	// password
 	Password string
+}
+
+// RegisterResult is the result type of the authorizor service register method.
+type RegisterResult struct {
+	// return code of registration
+	Code string
+	// jwt refresh token
+	RefreshToken string
+	// jwt access token
+	AccessToken string
+}
+
+// PingResult is the result type of the authorizor service ping method.
+type PingResult struct {
+	// Return 'ok' if server is running
+	Health string
 }

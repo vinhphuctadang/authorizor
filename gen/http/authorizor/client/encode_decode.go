@@ -69,14 +69,19 @@ func DecodeRegisterResponse(decoder func(*http.Response) goahttp.Decoder, restor
 		switch resp.StatusCode {
 		case http.StatusOK:
 			var (
-				body int
+				body RegisterResponseBody
 				err  error
 			)
 			err = decoder(resp).Decode(&body)
 			if err != nil {
 				return nil, goahttp.ErrDecodingError("authorizor", "register", err)
 			}
-			return body, nil
+			err = ValidateRegisterResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("authorizor", "register", err)
+			}
+			res := NewRegisterResultOK(&body)
+			return res, nil
 		default:
 			body, _ := ioutil.ReadAll(resp.Body)
 			return nil, goahttp.ErrInvalidResponse("authorizor", "register", resp.StatusCode, string(body))
@@ -119,14 +124,19 @@ func DecodePingResponse(decoder func(*http.Response) goahttp.Decoder, restoreBod
 		switch resp.StatusCode {
 		case http.StatusOK:
 			var (
-				body string
+				body PingResponseBody
 				err  error
 			)
 			err = decoder(resp).Decode(&body)
 			if err != nil {
 				return nil, goahttp.ErrDecodingError("authorizor", "ping", err)
 			}
-			return body, nil
+			err = ValidatePingResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("authorizor", "ping", err)
+			}
+			res := NewPingResultOK(&body)
+			return res, nil
 		default:
 			body, _ := ioutil.ReadAll(resp.Body)
 			return nil, goahttp.ErrInvalidResponse("authorizor", "ping", resp.StatusCode, string(body))

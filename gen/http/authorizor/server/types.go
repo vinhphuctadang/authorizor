@@ -21,6 +21,44 @@ type RegisterRequestBody struct {
 	Password *string `form:"password,omitempty" json:"password,omitempty" xml:"password,omitempty"`
 }
 
+// RegisterResponseBody is the type of the "authorizor" service "register"
+// endpoint HTTP response body.
+type RegisterResponseBody struct {
+	// return code of registration
+	Code string `form:"code" json:"code" xml:"code"`
+	// jwt refresh token
+	RefreshToken string `form:"refreshToken" json:"refreshToken" xml:"refreshToken"`
+	// jwt access token
+	AccessToken string `form:"accessToken" json:"accessToken" xml:"accessToken"`
+}
+
+// PingResponseBody is the type of the "authorizor" service "ping" endpoint
+// HTTP response body.
+type PingResponseBody struct {
+	// Return 'ok' if server is running
+	Health string `form:"health" json:"health" xml:"health"`
+}
+
+// NewRegisterResponseBody builds the HTTP response body from the result of the
+// "register" endpoint of the "authorizor" service.
+func NewRegisterResponseBody(res *authorizor.RegisterResult) *RegisterResponseBody {
+	body := &RegisterResponseBody{
+		Code:         res.Code,
+		RefreshToken: res.RefreshToken,
+		AccessToken:  res.AccessToken,
+	}
+	return body
+}
+
+// NewPingResponseBody builds the HTTP response body from the result of the
+// "ping" endpoint of the "authorizor" service.
+func NewPingResponseBody(res *authorizor.PingResult) *PingResponseBody {
+	body := &PingResponseBody{
+		Health: res.Health,
+	}
+	return body
+}
+
 // NewRegisterPayload builds a authorizor service register endpoint payload.
 func NewRegisterPayload(body *RegisterRequestBody) *authorizor.RegisterPayload {
 	v := &authorizor.RegisterPayload{

@@ -23,7 +23,9 @@ paths:
         "200":
           description: OK response.
           schema:
-            type: string
+            $ref: '#/definitions/AuthorizorPingResponseBody'
+            required:
+            - health
       schemes:
       - http
   /register:
@@ -45,11 +47,26 @@ paths:
         "200":
           description: OK response.
           schema:
-            type: integer
-            format: int64
+            $ref: '#/definitions/AuthorizorRegisterResponseBody'
+            required:
+            - code
+            - refreshToken
+            - accessToken
       schemes:
       - http
 definitions:
+  AuthorizorPingResponseBody:
+    title: AuthorizorPingResponseBody
+    type: object
+    properties:
+      health:
+        type: string
+        description: Return 'ok' if server is running
+        example: Ut harum unde sed itaque molestias.
+    example:
+      health: Iure repudiandae et ad quo ut perspiciatis.
+    required:
+    - health
   AuthorizorRegisterRequestBody:
     title: AuthorizorRegisterRequestBody
     type: object
@@ -57,14 +74,38 @@ definitions:
       password:
         type: string
         description: password
-        example: Consectetur similique.
+        example: Quos facilis nihil.
       username:
         type: string
         description: username
-        example: Voluptatem quos facilis nihil dolor.
+        example: Aut sequi incidunt.
     example:
       password: Tenetur incidunt.
-      username: Explicabo similique facilis.
+      username: Accusamus consectetur similique excepturi explicabo similique facilis.
     required:
     - username
     - password
+  AuthorizorRegisterResponseBody:
+    title: AuthorizorRegisterResponseBody
+    type: object
+    properties:
+      accessToken:
+        type: string
+        description: jwt access token
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+      code:
+        type: string
+        description: return code of registration
+        example: c_success
+      refreshToken:
+        type: string
+        description: jwt refresh token
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+    example:
+      accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+      code: c_success
+      refreshToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+    required:
+    - code
+    - refreshToken
+    - accessToken

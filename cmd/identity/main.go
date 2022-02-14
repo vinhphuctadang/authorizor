@@ -12,9 +12,15 @@ import (
 	"sync"
 	"syscall"
 
-	authorizorapi "github.com/vinhphuctadang/authorizor"
 	authorizor "github.com/vinhphuctadang/authorizor/gen/authorizor"
+	authorizorapi "github.com/vinhphuctadang/authorizor/internal/impl"
 )
+
+func panicIf(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
 
 func main() {
 	// Define command line flags, add any other flag required to configure the
@@ -29,29 +35,13 @@ func main() {
 	flag.Parse()
 
 	// Setup logger. Replace logger with your own log package of choice.
-	var (
-		logger *log.Logger
-	)
-	{
-		logger = log.New(os.Stderr, "[authorizorapi] ", log.Ltime)
-	}
+	logger := log.New(os.Stderr, "[authorizorapi] ", log.Ltime)
 
-	// Initialize the services.
-	var (
-		authorizorSvc authorizor.Service
-	)
-	{
-		authorizorSvc = authorizorapi.NewAuthorizor(logger)
-	}
+	// Initialize the services
+	authorizorSvc, err := authorizorapi.NewAuthorizor(logger)
+	panicIf(err)
 
-	// Wrap the services in endpoints that can be invoked from other services
-	// potentially running in different processes.
-	var (
-		authorizorEndpoints *authorizor.Endpoints
-	)
-	{
-		authorizorEndpoints = authorizor.NewEndpoints(authorizorSvc)
-	}
+	authorizorEndpoints := authorizor.NewEndpoints(authorizorSvc)
 
 	// Create channel used by both the signal handler and server goroutines
 	// to notify the main goroutine when to stop the server.

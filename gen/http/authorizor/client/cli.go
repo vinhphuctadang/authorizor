@@ -22,7 +22,7 @@ func BuildRegisterPayload(authorizorRegisterBody string) (*authorizor.RegisterPa
 	{
 		err = json.Unmarshal([]byte(authorizorRegisterBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"password\": \"Magnam velit et assumenda adipisci excepturi eos.\",\n      \"username\": \"Cum doloribus molestias qui.\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"password\": \"Assumenda adipisci excepturi eos sit.\",\n      \"username\": \"Molestias qui quidem magnam velit.\"\n   }'")
 		}
 	}
 	v := &authorizor.RegisterPayload{

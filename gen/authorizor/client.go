@@ -28,21 +28,21 @@ func NewClient(register, ping goa.Endpoint) *Client {
 }
 
 // Register calls the "register" endpoint of the "authorizor" service.
-func (c *Client) Register(ctx context.Context, p *RegisterPayload) (res int, err error) {
+func (c *Client) Register(ctx context.Context, p *RegisterPayload) (res *RegisterResult, err error) {
 	var ires interface{}
 	ires, err = c.RegisterEndpoint(ctx, p)
 	if err != nil {
 		return
 	}
-	return ires.(int), nil
+	return ires.(*RegisterResult), nil
 }
 
 // Ping calls the "ping" endpoint of the "authorizor" service.
-func (c *Client) Ping(ctx context.Context) (res string, err error) {
+func (c *Client) Ping(ctx context.Context) (res *PingResult, err error) {
 	var ires interface{}
 	ires, err = c.PingEndpoint(ctx, nil)
 	if err != nil {
 		return
 	}
-	return ires.(string), nil
+	return ires.(*PingResult), nil
 }

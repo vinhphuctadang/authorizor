@@ -30,8 +30,8 @@ func UsageCommands() string {
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
 	return os.Args[0] + ` authorizor register --body '{
-      "password": "Magnam velit et assumenda adipisci excepturi eos.",
-      "username": "Cum doloribus molestias qui."
+      "password": "Assumenda adipisci excepturi eos sit.",
+      "username": "Molestias qui quidem magnam velit."
    }'` + "\n" +
 		""
 }
@@ -161,8 +161,8 @@ Register implements register.
 
 Example:
     %[1]s authorizor register --body '{
-      "password": "Magnam velit et assumenda adipisci excepturi eos.",
-      "username": "Cum doloribus molestias qui."
+      "password": "Assumenda adipisci excepturi eos sit.",
+      "username": "Molestias qui quidem magnam velit."
    }'
 `, os.Args[0])
 }

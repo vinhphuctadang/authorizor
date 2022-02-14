@@ -12,6 +12,7 @@ import (
 	"io"
 	"net/http"
 
+	authorizor "github.com/vinhphuctadang/authorizor/gen/authorizor"
 	goahttp "goa.design/goa/v3/http"
 	goa "goa.design/goa/v3/pkg"
 )
@@ -20,9 +21,9 @@ import (
 // authorizor register endpoint.
 func EncodeRegisterResponse(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder) func(context.Context, http.ResponseWriter, interface{}) error {
 	return func(ctx context.Context, w http.ResponseWriter, v interface{}) error {
-		res, _ := v.(int)
+		res, _ := v.(*authorizor.RegisterResult)
 		enc := encoder(ctx, w)
-		body := res
+		body := NewRegisterResponseBody(res)
 		w.WriteHeader(http.StatusOK)
 		return enc.Encode(body)
 	}
@@ -57,9 +58,9 @@ func DecodeRegisterRequest(mux goahttp.Muxer, decoder func(*http.Request) goahtt
 // authorizor ping endpoint.
 func EncodePingResponse(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder) func(context.Context, http.ResponseWriter, interface{}) error {
 	return func(ctx context.Context, w http.ResponseWriter, v interface{}) error {
-		res, _ := v.(string)
+		res, _ := v.(*authorizor.PingResult)
 		enc := encoder(ctx, w)
-		body := res
+		body := NewPingResponseBody(res)
 		w.WriteHeader(http.StatusOK)
 		return enc.Encode(body)
 	}
